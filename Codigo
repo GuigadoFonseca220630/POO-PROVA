@@ -1,0 +1,69 @@
+from dataclasses import dataclass
+from enum import Enum
+
+# Definição da classe base Mensagem usando dataclass para simplificar a criação de atributos e assim deixar o código em questão mais rápido, mesmo que não seja um código grande
+@dataclass
+class Mensagem:
+    texto: str  # Texto da mensagem
+    data_envio: str  # Data de envio da mensagem
+
+    def _str_(self):
+        """Retorna uma representação textual da mensagem"""
+        return f"Mensagem: {self.texto} | Enviada em: {self.data_envio}"
+
+# Classe para mensagens multimídia, que são  herdadas de Mensagem, para facilitar as coisas
+@dataclass
+class MensagemMultimidia(Mensagem):
+    arquivo: str  # Nome do arquivo de mídia
+    formato: str  # Formato do arquivo (ex: jpg, mp4)
+
+    def _str_(self):
+        """Retorna uma representação textual da mensagem multimídia"""
+        return f"{super()._str_()} | Arquivo: {self.arquivo} | Formato: {self.formato}"
+
+# Classe específica para mensagens de vídeo, que adiciona a duração do vídeo
+@dataclass
+class MensagemVideo(MensagemMultimidia):
+    duracao: str  # Duração do vídeo
+
+    def _str_(self):
+        """Retorna uma representação textual da mensagem de vídeo"""
+        return f"{super()._str_()} | Duração: {self.duracao}"
+
+# Enum para definir os tipos de canal disponíveis, optei por isso para não precisar ficar escrevendo múltiplas vezes a mesma coisa, optei pela simplicidade
+class TipoCanal(Enum):
+    WHATSAPP = "WhatsApp"
+    TELEGRAM = "Telegram"
+    FACEBOOK = "Facebook"
+    INSTAGRAM = "Instagram"
+
+# Classe que representa um canal de comunicação
+@dataclass
+class Canal:
+    identificador: str  # Identificador do canal (número de telefone, nome de usuário, etc.)
+    tipo: TipoCanal  # Tipo do canal (WhatsApp, Telegram, etc.)
+
+    def enviar_mensagem(self, mensagem: Mensagem):
+        """Simula o envio de uma mensagem para o canal"""
+        print(f"Enviando via {self.tipo.value} para {self.identificador}: {mensagem}")
+
+# Zona de testes, é aqui onde vejo se está tudo dentro dos conformes e seguindo a ideia que planejei
+if _name_ == "_main_":
+    # Criando uma mensagem de texto para mandar
+    mensagem_texto = Mensagem("Olá, tudo bem?", "21/05/2025")
+
+    # Criando uma mensagem de vídeo
+    mensagem_video = MensagemVideo("Veja este vídeo!", "21/05/2025", "video.mp4", "mp4", "2min")
+
+    # Criando canais de comunicação
+    canais = [
+        Canal("+5511999999999", TipoCanal.WHATSAPP),
+        Canal("@usuario_telegram", TipoCanal.TELEGRAM),
+        Canal("facebook_usuario", TipoCanal.FACEBOOK),
+        Canal("instagram_usuario", TipoCanal.INSTAGRAM)
+    ]
+
+    # Enviando mensagens para cada canal, assim podendo preencher os requisitos da atividade e testar a conexão com múltiplas fontes
+    for canal in canais:
+        canal.enviar_mensagem(mensagem_texto)
+        canal.enviar_mensagem(mensagem_video)
