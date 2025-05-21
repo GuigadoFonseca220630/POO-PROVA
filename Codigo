@@ -74,7 +74,7 @@ if _name_ == "_main_":
 
     # Criando a lista de canais de comunicação disponíveis, ficando fácil de ver quais são os mesmos
     canais = [
-        Canal("+5511999999999", TipoCanal.WHATSAPP),  # WhatsApp
+        Canal("+5511988048899", TipoCanal.WHATSAPP),  # WhatsApp
         Canal("@usuario_telegram", TipoCanal.TELEGRAM),  # Telegram
         Canal("facebook_usuario", TipoCanal.FACEBOOK),  # Facebook
         Canal("instagram_usuario", TipoCanal.INSTAGRAM)  # Instagram
