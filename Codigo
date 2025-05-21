@@ -48,7 +48,7 @@ class Canal:
         print(f"Enviando via {self.tipo.value} para {self.identificador}: {mensagem}")
 
 # Zona de testes, é aqui que verei se tudo está seguindo conforme o planejado
-if _name_ == "_main_":
+if __name__ == "_main_":
     
     mensagem_texto = Mensagem("Olá, tudo bem?", "21/05/2025")
 
