@@ -97,7 +97,7 @@ Enviando via Instagram para Guilherme_Instagram: MensagemVideo(texto='Não perca
 
 
 
-# Eu consegui rodar esse codigo agora, mas tive que tirar algumas coisas
+# Eu consegui rodar esse codigo pelo Online Python agora, mas tive que tirar algumas coisas
 
 class Mensagem:
     def __init__(self, texto, data_envio):
@@ -106,9 +106,6 @@ class Mensagem:
 
     def get_texto(self):
         return self.__texto
-
-    def get_data_envio(self):
-        return self.__data_envio
 
 class MensagemMultimidia(Mensagem):
     def __init__(self, texto, data_envio, arquivo, formato):
@@ -147,31 +144,67 @@ class MensagemDocumento(MensagemMultimidia):
         return self.__tipo_documento
 
 class Canal:
-    def __init__(self, identificador, tipo, formato_video, formato_documento):
+    def __init__(self, identificador, tipo, mensagem, video, documento):
         self.__identificador = identificador
         self.__tipo = tipo
-        self.__formato_video = formato_video
-        self.__formato_documento = formato_documento
+        self.__mensagem = mensagem
+        self.__video = video
+        self.__documento = documento
 
-    def enviar_mensagem(self, mensagem):
-        print(f"Enviando via {self.__tipo} para {self.__identificador}: {mensagem.get_texto()}")
-        print(f"Formato de vídeo suportado: {self.__formato_video}")
-        print(f"Formato de documento suportado: {self.__formato_documento}")
+    def enviar_mensagem(self):
+        print(f"Enviando via {self.__tipo} para {self.__identificador}: {self.__mensagem.get_texto()}")
+        print(f"Vídeo enviado: {self.__video.get_arquivo()} ({self.__video.get_formato()}, {self.__video.get_duracao()})")
+        print(f"Documento enviado: {self.__documento.get_arquivo()} ({self.__documento.get_formato()}, {self.__documento.get_num_paginas()} páginas)\n")
 
 # Teste simples
 if __name__ == "__main__":
-    mensagem_texto = Mensagem("Olá, tudo bem?", "21/05/2025")
-
     canais = [
-        Canal("11 98804 8899", "WhatsApp", "MP4", "PDF"),
-        Canal("@Guilherme_Telegram", "Telegram", "MKV", "DOCX"),
-        Canal("Guilherme_Facebook", "Facebook", "AVI", "ODT"),
-        Canal("Guilherme_Instagram", "Instagram", "MOV", "TXT")
+        Canal("11 98804 8899", "WhatsApp", 
+              Mensagem("Olá pelo WhatsApp!", "21/05/2025"), 
+              MensagemVideo("Vídeo do WhatsApp", "21/05/2025", "video.mp4", "MP4", "2min"),
+              MensagemDocumento("Doc do WhatsApp", "21/05/2025", "arquivo.pdf", "PDF", 5, "500KB", "Relatório")),
+        
+        Canal("@Guilherme_Telegram", "Telegram", 
+              Mensagem("Olá pelo Telegram!", "21/05/2025"), 
+              MensagemVideo("Vídeo do Telegram", "21/05/2025", "video.mkv", "MKV", "3min"),
+              MensagemDocumento("Doc do Telegram", "21/05/2025", "arquivo.docx", "DOCX", 10, "1MB", "Contrato")),
+        
+        Canal("Guilherme_Facebook", "Facebook", 
+              Mensagem("Olá pelo Facebook!", "21/05/2025"), 
+              MensagemVideo("Vídeo do Facebook", "21/05/2025", "video.avi", "AVI", "5min"),
+              MensagemDocumento("Doc do Facebook", "21/05/2025", "arquivo.odt", "ODT", 7, "700KB", "Apresentação")),
+        
+        Canal("Guilherme_Instagram", "Instagram", 
+              Mensagem("Olá pelo Instagram!", "21/05/2025"), 
+              MensagemVideo("Vídeo do Instagram", "21/05/2025", "video.mov", "MOV", "1min"),
+              MensagemDocumento("Doc do Instagram", "21/05/2025", "arquivo.txt", "TXT", 3, "300KB", "Notas"))
     ]
 
     for canal in canais:
-        canal.enviar_mensagem(mensagem_texto)
+        canal.enviar_mensagem()
+
+Enviando via WhatsApp para 11 98804 8899: Olá pelo WhatsApp!
+Vídeo enviado: video.mp4 (MP4, 2min)
+Documento enviado: arquivo.pdf (PDF, 5 páginas)
+
+Enviando via Telegram para @Guilherme_Telegram: Olá pelo Telegram!
+Vídeo enviado: video.mkv (MKV, 3min)
+Documento enviado: arquivo.docx (DOCX, 10 páginas)
+
+Enviando via Facebook para Guilherme_Facebook: Olá pelo Facebook!
+Vídeo enviado: video.avi (AVI, 5min)
+Documento enviado: arquivo.odt (ODT, 7 páginas)
+
+Enviando via Instagram para Guilherme_Instagram: Olá pelo Instagram!
+Vídeo enviado: video.mov (MOV, 1min)
+Documento enviado: arquivo.txt (TXT, 3 páginas)
 
 
-# Deixarei dos dos jeitos
+
+** Process exited - Return Code: 0 **
+Press Enter to exit terminal
+
+
+
+# Deixarei dos dos jeitos para fins de desencargo de consciencia
 
