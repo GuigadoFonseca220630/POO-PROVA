@@ -1,34 +1,29 @@
 from dataclasses import dataclass
 from enum import Enum
 
-# Optei pelo dataclass para não precisar repetir várias vezes a inicialização, para fins de exemplificação
 @dataclass
 class Mensagem:
     """Classe base para mensagens de texto."""
-    texto: str  # Conteúdo da mensagem
-    data_envio: str  # Data em que a mensagem foi enviada
-
+    texto: str
+    data_envio: str
 
 @dataclass
 class MensagemMultimidia(Mensagem):
     """Classe para mensagens com arquivos multimídia."""
-    arquivo: str  # Nome do arquivo associado à mensagem
-    formato: str  # Formato do arquivo (ex: jpg, mp4, pdf)
+    arquivo: str
+    formato: str
 
-# Classe específica para mensagens de vídeo, que adiciona a duração do vídeo e torna eles mais completos e robustos para este trabalho
 @dataclass
 class MensagemVideo(MensagemMultimidia):
     """Classe específica para mensagens de vídeo."""
-    duracao: str  # Duração do vídeo (ex: "2min", "30s")
+    duracao: str
 
-# Tomei a liberdade de adicionar mais coisas ao trabalho, para que eu pudesse sentir que estava fazendo algo que seja único e não apenas um passo a passa engessado
-# E criei variações de formato de vídeo e de documento para deixar tudo mais interessante e variado, designando formatos diferentes a canais diferentes
 @dataclass
 class MensagemDocumento(MensagemMultimidia):
     """Classe específica para mensagens de documento."""
-    num_paginas: int  # Quantidade de páginas no documento
-    tamanho_arquivo: str  # Tamanho do arquivo (ex: "2MB")
-    tipo_documento: str  # Tipo do documento (ex: "PDF", "DOCX", "TXT", "PPTX")
+    num_paginas: int
+    tamanho_arquivo: str
+    tipo_documento: str
 
 class TipoCanal(Enum):
     """Enum para os tipos de canal disponíveis."""
@@ -40,19 +35,17 @@ class TipoCanal(Enum):
 @dataclass
 class Canal:
     """Classe que representa um canal de comunicação."""
-    identificador: str  # Identificador do canal (número de telefone, nome de usuário, etc.)
-    tipo: TipoCanal  # Tipo do canal (WhatsApp, Telegram, etc.)
+    identificador: str
+    tipo: TipoCanal
 
     def enviar_mensagem(self, mensagem: Mensagem):
         """Simula o envio de uma mensagem para o canal."""
         print(f"Enviando via {self.tipo.value} para {self.identificador}: {mensagem}")
 
-# Zona de testes, é aqui que verei se tudo está seguindo conforme o planejado
-if __name__ == "_main_":
-    
+# Zona de testes
+if _name_ == "_main_":
     mensagem_texto = Mensagem("Olá, tudo bem?", "21/05/2025")
 
-   
     canais_documentos = {
         TipoCanal.WHATSAPP: MensagemDocumento("Contrato de serviço", "21/05/2025", "contrato.docx", "DOCX", 5, "1MB", "DOCX"),
         TipoCanal.TELEGRAM: MensagemDocumento("Manual de instruções", "21/05/2025", "manual.pdf", "PDF", 15, "3MB", "PDF"),
@@ -60,7 +53,6 @@ if __name__ == "_main_":
         TipoCanal.INSTAGRAM: MensagemDocumento("Apresentação de projeto", "21/05/2025", "projeto.pptx", "PPTX", 10, "4MB", "PPTX")
     }
 
-   
     canais_videos = {
         TipoCanal.WHATSAPP: MensagemVideo("Veja este vídeo!", "21/05/2025", "video.mp4", "MP4", "2min"),
         TipoCanal.TELEGRAM: MensagemVideo("Confira este conteúdo!", "21/05/2025", "video.avi", "AVI", "3min"),
@@ -68,16 +60,37 @@ if __name__ == "_main_":
         TipoCanal.INSTAGRAM: MensagemVideo("Não perca este vídeo!", "21/05/2025", "video.mov", "MOV", "4min")
     }
 
-    # Criando a lista de canais de comunicação disponíveis, ficando fácil de ver quais são os mesmos
     canais = [
-        Canal("+5511988048899", TipoCanal.WHATSAPP),  # WhatsApp
-        Canal("@usuario_telegram", TipoCanal.TELEGRAM),  # Telegram
-        Canal("facebook_usuario", TipoCanal.FACEBOOK),  # Facebook
-        Canal("instagram_usuario", TipoCanal.INSTAGRAM)  # Instagram
+        Canal("11 98804 8899", TipoCanal.WHATSAPP),  # WhatsApp
+        Canal("@Guilherme_Telegram", TipoCanal.TELEGRAM),  # Telegram
+        Canal("Guilherme_Facebook", TipoCanal.FACEBOOK),  # Facebook
+        Canal("Guilherme_Instagram", TipoCanal.INSTAGRAM)  # Instagram
     ]
 
-    # Enviando mensagens para cada canal e assim vendo se tudo está funcionando
     for canal in canais:
-        canal.enviar_mensagem(mensagem_texto)  # Todos os canais recebem a mensagem de texto
-        canal.enviar_mensagem(canais_documentos[canal.tipo])  # Cada canal recebe apenas seu formato de documento exclusivo
-        canal.enviar_mensagem(canais_videos[canal.tipo])  # Cada canal recebe apenas seu formato de vídeo exclusivo
+        canal.enviar_mensagem(mensagem_texto)
+        canal.enviar_mensagem(canais_documentos[canal.tipo])
+        canal.enviar_mensagem(canais_videos[canal.tipo])
+
+
+
+# Somente consegui rodar esse codigo no PYDROID 3, tentei de tudo para rodar no Visual Studio mas não consegui, de antemão peço desculpas por isso
+
+
+# O codigo ficou assim
+
+
+Enviando via WhatsApp para 11 98804 8899: Mensagem(texto='Olá, tudo bem?', data_envio='21/05/2025')
+Enviando via WhatsApp para 11 98804 8899: MensagemDocumento(texto='Contrato de serviço', data_envio='21/05/2025', arquivo='contrato.docx', formato='DOCX', num_paginas=5, tamanho_arquivo='1MB', tipo_documento='DOCX')
+Enviando via WhatsApp para 11 98804 8899: MensagemVideo(texto='Veja este vídeo!', data_envio='21/05/2025', arquivo='video.mp4', formato='MP4', duracao='2min')
+Enviando via Telegram para @Guilherme_Telegram: Mensagem(texto='Olá, tudo bem?', data_envio='21/05/2025')
+Enviando via Telegram para @Guilherme_Telegram: MensagemDocumento(texto='Manual de instruções', data_envio='21/05/2025', arquivo='manual.pdf', formato='PDF', num_paginas=15, tamanho_arquivo='3MB', tipo_documento='PDF')
+Enviando via Telegram para @Guilherme_Telegram: MensagemVideo(texto='Confira este conteúdo!', data_envio='21/05/2025', arquivo='video.avi', formato='AVI', duracao='3min')
+Enviando via Facebook para Guilherme_Facebook: Mensagem(texto='Olá, tudo bem?', data_envio='21/05/2025')
+Enviando via Facebook para Guilherme_Facebook: MensagemDocumento(texto='Resumo acadêmico', data_envio='21/05/2025', arquivo='resumo.txt', formato='TXT', num_paginas=2, tamanho_arquivo='500KB', tipo_documento='TXT')
+Enviando via Facebook para Guilherme_Facebook: MensagemVideo(texto='Assista isso!', data_envio='21/05/2025', arquivo='video.flv', formato='FLV', duracao='1min30s')
+Enviando via Instagram para Guilherme_Instagram: Mensagem(texto='Olá, tudo bem?', data_envio='21/05/2025')
+Enviando via Instagram para Guilherme_Instagram: MensagemDocumento(texto='Apresentação de projeto', data_envio='21/05/2025', arquivo='projeto.pptx', formato='PPTX', num_paginas=10, tamanho_arquivo='4MB', tipo_documento='PPTX')
+Enviando via Instagram para Guilherme_Instagram: MensagemVideo(texto='Não perca este vídeo!', data_envio='21/05/2025', arquivo='video.mov', formato='MOV', duracao='4min')
+
+[Program finished]
